@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+
+{% block body %}
+
+<div class="login-form">
+<form action="{{url_for('success')}}" method="POST" class="form-horizontal" role="form">
+    <div class="form-group">
+      <legend>Register</legend>
+    </div>
+
+    <div class="form-group">
+        <label for="input" class="col-sm-2 control-label">Username:</label>
+        <div class="col-sm-12">
+          <input type="text" name="username" id="username" class="form-control" required="required" placeholder="Username">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input" class="col-sm-2 control-label">Password:</label>
+        <div class="col-sm-12">
+          <input type="password" name="password" id="password" class="form-control" required="required" placeholder="Password">
+        </div>
+    </div>
+
+    <div class="form-group">
+            <label for="input" class="col-sm-12 control-label">Confirm Password:</label>
+            <div class="col-sm-12">
+              <input type="password" name="password" id="password" class="form-control" required="required" placeholder="Confirm Password">
+            </div>
+        </div>
+
+    <div class="form-group col-sm-12">
+        <input type="submit" name="register" class="btn btn-large btn-block btn-info" value="REGISTER">
+    </div>
+
+</form>
+</div>
+
+<div class="container">
+
+        <h3 class="label label-info">IF YOU ARE EXISTING USER PLEASE</h3>
+        <hr>
+        <a class="btn btn-large btn-block btn-info" href="{{ url_for('index') }}" role="button">LOGIN</a>
+</div>
+
+{% endblock body %}
