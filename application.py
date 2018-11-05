@@ -4,6 +4,7 @@ from flask import Flask, session,render_template,request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from os import urandom
 
 app = Flask(__name__)
 
@@ -14,6 +15,9 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.secret_key = urandom(24)
+
+
 Session(app)
 
 # Set up database
@@ -23,18 +27,22 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
+    if 'username' in session:
+        message = session['username'] + " you are currently logged in!!!"
+        return render_template('success.html',message=message)
     return render_template("index.html")
 
 @app.route("/success",methods=["POST"])
 def success():
-    username = request.form.get("username")
-    username = username.capitalize()
+    # username = request.form.get("username")
+    session['username'] = request.form['username']
+    session['username'] = session['username'].capitalize()
     button = request.form.get("login")
     print(button)
     if button=="LOGIN":
-        message = username + " you are logged in succcusfully!"
+        message = session['username'] + " you are logged in succcusfully!"
     else:
-        message = username + " you are registered succcusfully!"
+        message = session['username'] + " you are registered succcusfully!"
     return render_template('success.html',message=message)
 
 # def login():
@@ -49,3 +57,9 @@ def register():
     # username = username.capitalize()
     # message = username + " you are registered succcusfully!"
     return render_template('register.html')
+
+
+@app.route('/sign_out')
+def sign_out():
+    session.pop('username')
+    return render_template("index.html")
