@@ -10,8 +10,6 @@ from models import *
 
 app = Flask(__name__)
 
-count = 1
-
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
@@ -27,7 +25,7 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-# db.init_app(app)
+db.init_app(app)
 
 
 @app.route("/")
@@ -39,37 +37,28 @@ def index():
 
 @app.route("/success",methods=["POST"])
 def success():
-    global count
-    username = request.form.get("username")
-    form_password = request.form.get("password")
+    # username = request.form.get("username")
+    session['username'] = request.form['username']
+    session['username'] = session['username'].capitalize()
     button = request.form.get("login")
-
+    print(button)
     if button=="LOGIN":
-        user = db.execute("select * from users where name=:username",{"username":username}).fetchone()
-
-        if user == None or user.password != form_password :
-            message = "check username or password"
-            # session['username'] = None
-
-        elif user.password == form_password:
-            print(user.password)
-            session['username'] = username
-            session['username'] = session['username'].capitalize()
-            message = session['username'] +" you are logged in succcusfully!"
-
-
+        message = session['username'] + " you are logged in succcusfully!"
     else:
-        db.execute("INSERT INTO users (id,name, password) VALUES (:id,:name, :password)",{"id":count,"name": username, "password": form_password})
-        db.commit()
-        count += 1
-        session['username'] = username
-        session['username'] = session['username'].capitalize()
         message = session['username'] + " you are registered succcusfully!"
     return render_template('success.html',message=message)
 
+# def login():
+#     username = request.form.get("username")
+#     username = username.capitalize()
+#     message = username + " you are logged in succcusfully!"
+#     return render_template('sucusses.html',message=message)
 
 @app.route("/register")
 def register():
+    # username = request.form.get("username")
+    # username = username.capitalize()
+    # message = username + " you are registered succcusfully!"
     return render_template('register.html')
 
 

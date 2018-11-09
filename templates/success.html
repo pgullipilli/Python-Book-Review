@@ -5,7 +5,12 @@
 {% endblock title %}
 
 {% block body %}
+    {% if "username" in session %}
     <h1> {{ message }} </h1>
     <h3> if you want to logout<a href="{{ url_for('sign_out')}}" class="btn btn-large btn-block btn-info">Click here</a></a></h3>
+    {% else %}
+    <h1> {{ message }} </h1>
+    <h3>if you want to login again<a href="{{ url_for('index')}}" class="btn btn-large btn-block btn-info">Click here</a></a></h3>
+    {% endif %}
 {% endblock body %}
 
