@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+
+{% block head %}
+    Review Feedback
+{% endblock head %}
+
+
+{% block body %}
+    {% if exist_review == None %}
+        <h3>{{message}}</h3>
+        <h3>To review another book</h3>
+        <a href="{{ url_for('index') }}"><button type="submit" class="btn btn-primary">Click Here</button></a>
+    {% else %}
+        <h3>{{message}}</h3>
+        <!-- <p>Your Review is</p> -->
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td name="isbn">{{isbn}}</td>
+                    <input type="hidden" name="isbn" value="{{isbn}}">
+                    <td>{{title}}</td>
+                    <input type="hidden" name="title" value="{{title}}">
+                    <td>{{exist_review.rating}}</td>
+                    <td>{{exist_review.review}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>To review another book</p>
+        <a href="{{ url_for('index') }}"><button type="submit" class="btn btn-primary">Click Here</button></a>
+    {% endif %}
+
+{% endblock body %}

@@ -1,0 +1,134 @@
+{% extends 'layout.html' %}
+
+
+{% block head %}
+Review
+{% endblock head %}
+
+
+{% block body %}
+
+<h3>The Details Of Selected Book Are</h3>
+
+<form action="{{ url_for('review_feedback') }}" method="POST" role="form">
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td name="isbn">{{book.isbn}}</td>
+            <input type="hidden" name="isbn" value="{{book.isbn}}">
+            <td>{{book.title}}</td>
+            <input type="hidden" name="title" value="{{book.title}}">
+            <td>{{book.author}}</td>
+            <td>{{book.year}}</td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<p>
+    <h3>Good Reads rating for this book is</h3>
+    <h4>No of people reviewed in goodreads : {{good_reads_rating_count}}</h4>
+    <h4>The average of reviews in goodreads : {{good_reads_avg_rating}}</h4>
+</p>
+<hr>
+<!-- <form action="{{ url_for('review_feedback') }}" method="POST" role="form"> -->
+
+    {% if exist_review == None %}
+    <legend>Write Your Review About This Book</legend>
+
+    <div class="form-group">
+        <label>Your rating for this book</label>
+        <fieldset class="form-group">
+            <div class="row">
+                <!-- <legend class="col-form-label col-sm-1 pt-0">Rating</legend> -->
+                <!-- <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"
+                            checked>
+                        <label class="form-check-label" for="gridRadios1">
+                            1
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            2
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
+                        <label class="form-check-label" for="gridRadios3">
+                            3
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4" value="option4">
+                        <label class="form-check-label" for="gridRadios4">
+                            4
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios5" value="option5">
+                        <label class="form-check-label" for="gridRadios5">
+                            5
+                        </label>
+                    </div>
+                </div> -->
+                <div class="col-sm-10">
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rating" id="inlineRadio1" value="1">
+                    <label class="form-check-label" for="inlineRadio1">1</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rating" id="inlineRadio2" value="2">
+                    <label class="form-check-label" for="inlineRadio2">2</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rating" id="inlineRadio3" value="3">
+                    <label class="form-check-label" for="inlineRadio3">3</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rating" id="inlineRadio4" value="4">
+                    <label class="form-check-label" for="inlineRadio4">4</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rating" id="inlineRadio5" value="5" checked>
+                    <label class="form-check-label" for="inlineRadio5">5</label>
+                  </div>
+
+                  </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="form-group">
+        <label>Your opinion about this book</label>
+        <textarea class="form-control" rows="3" name="review"></textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    {% else %}
+        <h3>You already submitted review for this book, so you can't write review again</h3>
+        <input type="hidden" name="isbn" value="{{book.isbn}}">
+        <input type="hidden" name="title" value="{{book.title}}">
+        <p>To view your review</p>
+        <div class="form-group">
+                <button type="submit" class="btn btn-primary">Click here</button>
+        </div>
+    {% endif %}
+</form>
+<!-- <h3>ISBN : {{isbn}}</h3>
+    <h3>Title : {{title}}</h3>
+    <h3>Author : {{author}}</h3>
+    <h3>year : {{year}}</h3> -->
+{% endblock body %}

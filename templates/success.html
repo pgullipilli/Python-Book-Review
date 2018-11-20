@@ -1,16 +1,46 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Login
+Login
 {% endblock title %}
 
 {% block body %}
-    {% if "username" in session %}
-    <h1> {{ message }} </h1>
-    <h3> if you want to logout<a href="{{ url_for('sign_out')}}" class="btn btn-large btn-block btn-info">Click here</a></a></h3>
-    {% else %}
-    <h1> {{ message }} </h1>
-    <h3>if you want to login again<a href="{{ url_for('index')}}" class="btn btn-large btn-block btn-info">Click here</a></a></h3>
-    {% endif %}
-{% endblock body %}
+{% if "username" in session %}
+<h1> {{ message }} </h1>
+<a href="{{ url_for('sign_out')}}" class="btn btn-sm btn-info">Logout</a></a>
+<br><br>
+<div class="col-sm-12">
+    <p>Enter the details of the book that you want to write review: </p>
+</div>
+<form action="{{ url_for('search') }}" method="POST" class="form-horizontal" role="form">
+    <div class="form-group">
+        <label class="col-sm-2">ISBN</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="ISBN" name="isbn">
+        </div>
+    </div>
 
+    <div class="form-group">
+        <label class="col-sm-2">Title</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Title" name="title">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2">Author</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Author" name="author">
+        </div>
+    </div>
+
+    <div class="form-group col-sm-2">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+{% else %}
+<h1> {{ message }} </h1>
+<h3>if you want to login again <a href="{{ url_for('index')}}" class="btn btn-large btn-info">Login</a></a></h3>
+{% endif %}
+{% endblock body %}
