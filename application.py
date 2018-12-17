@@ -16,6 +16,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 secret_key = config['GOODREADS']['API_KEY']
+database_url = config['POSTGRES']['DATABASE_URL']
 
 
 app = Flask(__name__)
@@ -23,7 +24,7 @@ app = Flask(__name__)
 # count = 1
 
 # Check for environment variable
-if not os.getenv("DATABASE_URL"):
+if not database_url:
     raise RuntimeError("DATABASE_URL is not set")
 
 # Configure session to use filesystem
@@ -36,7 +37,7 @@ app.secret_key = urandom(24)
 Session(app)
 
 # Set up database
-engine = create_engine(os.getenv("DATABASE_URL"))
+engine = create_engine(database_url)
 db = scoped_session(sessionmaker(bind=engine))
 
 
@@ -116,6 +117,7 @@ def search():
         for i in books:
             if isbn == '' and title == '' and author == '':
                 # print('No Such Book')
+                filtered_list=None
                 break
             elif isbn != '' and title == '' and author == '':
                 if i.isbn.find(isbn) != -1:
@@ -125,6 +127,7 @@ def search():
                     counter += 1
                     if counter == count:
                         # print('No Such Book')
+                        filtered_list=None
                         break
 
             elif isbn == '' and title != '' and author == '':
@@ -135,6 +138,7 @@ def search():
                     counter += 1
                     if counter == count:
                         # print('No Such Book')
+                        filtered_list=None
                         break
 
             elif isbn == '' and title == '' and author != '':
@@ -145,6 +149,7 @@ def search():
                     counter += 1
                     if counter == count:
                         # print('No Such Book')
+                        filtered_list=None
                         break
 
             elif isbn != '' and title != '' and author == '':
@@ -155,6 +160,7 @@ def search():
                     counter += 1
                     if counter == count:
                         # print('No Such Book')
+                        filtered_list=None
                         break
 
             elif isbn != '' and title == '' and author != '':
@@ -165,6 +171,7 @@ def search():
                     counter += 1
                     if counter == count:
                         # print('No Such Book')
+                        filtered_list=None
                         break
 
             elif isbn == '' and title != '' and author != '':
@@ -175,10 +182,12 @@ def search():
                     counter += 1
                     if counter == count:
                         # print('No Such Book')
+                        filtered_list=None
                         break
 
             else:
                 # print('No Such Book')
+                filtered_list=None
                 break
         books = filtered_list
     return render_template('search.html', books=books)

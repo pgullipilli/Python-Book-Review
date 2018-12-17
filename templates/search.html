@@ -43,6 +43,8 @@ Search
     {% endfor %}
     {% else %}
     <h3>No Such Book Found</h3>
+    <p>To Search for another book</p>
+    <a href="{{ url_for('index') }}"><button type="submit" class="btn btn-primary">Click Here</button></a>
     {% endif %}
 </table>
 </div>
