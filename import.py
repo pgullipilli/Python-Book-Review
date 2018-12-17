@@ -6,11 +6,18 @@ from models import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+database_url = config['POSTGRES']['DATABASE_URL']
+
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-engine = create_engine(os.getenv("DATABASE_URL"))
+engine = create_engine(database_url)
 db = scoped_session(sessionmaker(bind=engine))
 
 count_value = db.execute("select count(*) from books").fetchone()
