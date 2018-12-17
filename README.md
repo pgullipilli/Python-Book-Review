@@ -29,4 +29,13 @@ I used powershell so in it we can set it as follows
 
 once all set we can run our application by using the command `flask run`
 
+## How application works
+
+1. user need to register in order to write a review for a book
+2. once registred you can log in to the application
+3. once you logged into the application you landed on search page where you can search for a book
+4. if the searched book exist in our database it shows the details of the book and form to fill the review
+5. each user is allowed to write a review to the particular book only once so if you already write a review for the book searched you can not write review again you have only option to see your review for that book.
+6. if you want to logout of the application you can use the logout button in search page
+
 
