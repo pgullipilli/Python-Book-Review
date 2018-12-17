@@ -10,6 +10,13 @@ from os import urandom
 
 from models import *
 
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+secret_key = config['GOODREADS']['API_KEY']
+
 
 app = Flask(__name__)
 
@@ -189,7 +196,7 @@ def review(isbn):
     # author = book.author
     # year = book.year
 
-    res = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key":"H5fw2gTtqbX7RnMMpDuO4w","isbns": book.isbn})
+    res = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key":secret_key,"isbns": book.isbn})
     result = res.json()
     good_reads_rating_count = result["books"][0]["work_ratings_count"]
     good_reads_avg_rating = result["books"][0]["average_rating"]
@@ -235,7 +242,7 @@ def books_api(isbn):
         return jsonify({"error":"Book Not Found"}),404
         # return abort(404)
     else:
-        res = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key":"H5fw2gTtqbX7RnMMpDuO4w","isbns": book.isbn})
+        res = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key":secret_key,"isbns": book.isbn})
         result = res.json()
         good_reads_rating_count = result["books"][0]["work_ratings_count"]
         good_reads_avg_rating = result["books"][0]["average_rating"]
