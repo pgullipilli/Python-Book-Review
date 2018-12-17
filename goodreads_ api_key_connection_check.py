@@ -1,4 +1,10 @@
 import requests
+import configparser
 
-res = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key":"H5fw2gTtqbX7RnMMpDuO4w","isbns": "9781632168146"})
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+secret_key = config['GOODREADS']['API_KEY']
+
+res = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key":secret_key,"isbns": "9781632168146"})
 print(res.json())
